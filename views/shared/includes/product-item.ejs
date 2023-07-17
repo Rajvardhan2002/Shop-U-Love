@@ -1,0 +1,25 @@
+<article class="product-item">
+  <!--It's always advised to wrap standalone items inside an article tag.-->
+  <img src="<%= productLoopKey.imageUrl %>" alt="<%= productLoopKey.title %>" />
+  <div class="product-item-content">
+    <h2><%= productLoopKey.title %></h2>
+    <div class="product-item-actions">
+      <% if(locals.isAdmin) { %>
+      <a class="btn btn-alt" href="/admin/products/<%= productLoopKey.id %>"
+        >View & Edit</a
+      >
+      <button
+        class="btn btn-alt"
+        data-productid="<%= productLoopKey.id %>"
+        data-csrf="<%= locals.csrfToken %>"
+      >
+        Delete
+      </button>
+      <% }else { %>
+        <a class="btn btn-alt" href="/products/<%= productLoopKey.id %>"
+            >View Details</a
+          >
+      <% } %>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,33 @@
+<%- include('../../shared/includes/head', { pageTitle: 'Your Cart' }) %>
+<link rel="stylesheet" href="/styles/cart.css">
+<script src="/scripts/update-cart-item.js" defer></script>
+</head>
+<body>
+  <%- include('../../shared/includes/header') %>
+  <main>
+    <h1>Your Cart</h1>
+    <ul id="cart-items">
+      <% for (const cartItem of locals.cart.items) { %>
+        <li>
+          <%- include('includes/cart-item', { item: cartItem }) %>
+        </li>
+      <% } %>
+    </ul>
+    <div id="cart-total">
+      <p>Total: $<span id="cart-total-price"><%= locals.cart.totalPrice.toFixed(2) %></span></p><!--to fixed is used to fix decimal places in JS-->
+        <% if(locals.isAuth && locals.cart.totalQuantity>0) { %>
+            <form action="/orders" method="POST">
+              <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
+                 <button class="btn">Buy Products</button>
+            </form>
+      <% }else { %>
+        <%  if(!locals.isAuth) { %> 
+          <p id="cart-total-fallback">Please login first in order to purchase items</p>
+          <% } else if ( locals.isAuth && locals.cart.totalQuantity<=0) { %>
+            <p id="cart-total-fallback">Please add some items in order to purchase</p>
+            <% } %>
+        
+        <% } %>
+    </div>
+  </main>
+<%- include('../../shared/includes/footer') %>
