@@ -53,9 +53,15 @@ the path and then it checks for the rest of the path in the adminRoute file. So,
 app.use(notFoundMiddleware);
 app.use(handleErrorMiddleware);
 
+let port = 3000;
+
+if (process.env.PORT) {
+  port = process.env.PORT;
+}
+
 db.connectToDatabase()
   .then(function () {
-    app.listen(3000);
+    app.listen(port);
   })
   .catch(function (error) {
     console.log("Failed to connecct to the database");
